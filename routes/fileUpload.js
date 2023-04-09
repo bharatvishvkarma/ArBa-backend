@@ -56,6 +56,28 @@ const uploadToS3 = (fileData) => {
     });
 };
 
+const deleteFromS3 = (req,res)=>{
+    // let key = req.body.key
+    
+    const params = {
+        Bucket: bucketName,
+        Key: "1680859834367.jpg"
+    };
+    // console.log(params.Key)
+    S3.deleteObject(params, function (err, data) {
+        if (err) {
+            return res.status(500).send({
+                message:err
+            })
+        }
+        else{
+            return res.send({
+                message:"Image deleted successfully"
+            })
+        } 
+      });
+}
+
 uploadFile.post("/upload", upload.single("image"), async (req, res) => {
     // console.log(req.file + "2");
     if (req.file) {
@@ -66,5 +88,6 @@ uploadFile.post("/upload", upload.single("image"), async (req, res) => {
         });
     }
 });
+uploadFile.get('/deleteImg', deleteFromS3)
 
 module.exports = uploadFile

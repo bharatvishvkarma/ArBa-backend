@@ -10,8 +10,8 @@ const {createCategory,
 category.post('/add', createCategory)
 category.get('/get', getAllCategories)
 category.get('get/:id', getSingleCategory)
-category.delete('/delete',deleteCategory)
-category.patch('/update',updateCategory)
+category.delete('/delete/:id',deleteCategory)
+category.patch('/update/:id',updateCategory)
 
 module.exports = category
 

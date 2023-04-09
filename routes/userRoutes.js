@@ -12,8 +12,8 @@ const user = express.Router()
 user.post('/register', registerUser)
 user.post('/login',logIn)
 user.get('/loggedInUser',authMiddleware,checkLoggedIn)
-user.patch('/update-user/:id',updateUser)
-user.patch('/change-password/:id',changePassword)
+user.patch('/update/:id',updateUser)
+user.patch('/changepassword/:id',changePassword)
 
 
 module.exports = user

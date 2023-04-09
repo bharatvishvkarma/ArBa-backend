@@ -106,10 +106,12 @@ async function updateUser(req,res){
     try{
         const id = req.params.id
         const data = req.body
-
-        await User.findByIdAndUpdate(id, data)
+        console.log(data)
+        const user = await User.findByIdAndUpdate(id, data,{new:true})
+        console.log(user)
         return res.send({
-            message: "User Updated"
+            message: "User Updated",
+            user
         })
     }
     catch(err){
@@ -127,7 +129,7 @@ async function changePassword(req,res){
         let existingUser = await User.findOne({email:email})
         if(!existingUser){
             return res.status(400).send({
-                message:'userName not correct'
+                message:'Wrong Email Address'
             })
         }
         if(existingUser.password !== password){

@@ -3,6 +3,8 @@ const Category = require('../database/category.js')
 async function createCategory(req,res){
     try{
         const data = req.body
+        
+        
 
         await Category.create(data)
 
@@ -20,7 +22,18 @@ async function createCategory(req,res){
 
 async function getAllCategories(req,res){
     try{
-        let category = await Category.find()
+        const name = req.query.name
+        // console.log(name)
+        let category
+        // if(name){
+            const regex = new RegExp(name, "i")
+            category = await Category.find({name:{$regex:regex}})
+            
+        // }
+        // else{
+        //     category = await Category.find()
+        // }
+        
         return res.send({
             category
         })
@@ -51,12 +64,14 @@ async function getSingleCategory(req, res){
 async function deleteCategory(req, res){
     try{
         const id = req.params.id
-        await Category.deleteById(id)
-        // let category = await Category.find()
+        console.log(id)
+        await Category.findByIdAndDelete(id)
+        let category = await Category.find()
+
 
         return res.send({
             message:"deleted",
-            // category
+            category
         })
     }
     catch(err){
@@ -70,11 +85,11 @@ async function updateCategory(req,res){
     try{
         const id = req.params.id
         const data = req.body
-        const updateCategory = await Category.findByIdAndUpdate(id,data)
-
+        await Category.findByIdAndUpdate(id,data)
+        let category = await Category.find()
         return res.send({
             message: "updated",
-            updateCategory
+            category
         })
     }
     catch(err){
